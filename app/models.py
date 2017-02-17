@@ -11,7 +11,8 @@ from flask_login import UserMixin  # 引入flask-login用户模型继承类方�
 class Article(db.Model):
     __tablename__ = 'articles'
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(64), unique=True)
+    # title = db.Column(db.String(64), unique=True)
+    title = db.Column(db.String(64))
     body = db.Column(db.Text)
     create_time = db.Column(db.DATETIME, default=datetime.utcnow())
     category_id = db.Column(db.Integer, db.ForeignKey('categorys.id'))
