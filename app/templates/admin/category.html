@@ -8,16 +8,17 @@
         <table class="table">
             <thead>
             <tr>
-                <th>文章编号</th>
-                <th>文章标题</th>
+                <!-- <th>文章编号</th> -->
+                <!-- <th>文章标题</th> -->
+                <th>类别名</th>
                 <th>操作</th>
             </tr>
             </thead>
             <tbody>
             {% for foo in list %}
                 <tr>
-                    <td>{{ foo.id }}</td>
-                    <th>{{ foo.title }}</th>
+                    <td>{{ foo.name }}</td>
+                    <!-- <th>{{ foo.title }}</th> -->
                     <td><a href="{{ url_for('admin.category_del',id=foo.id,a='del') }}">删除</a></td>
                 </tr>
             {% endfor %}
