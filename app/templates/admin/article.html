@@ -8,7 +8,7 @@
         <table class="table">
             <thead>
             <tr>
-                <th>文章编号</th>
+                <!-- <th>文章编号</th> -->
                 <th>文章标题</th>
                 <th>操作</th>
             </tr>
@@ -16,7 +16,7 @@
             <tbody>
             {% for foo in list %}
                 <tr>
-                    <td>{{ foo.id }}</td>
+                    <!-- <td>{{ foo.id }}</td> -->
                     <th>{{ foo.title }}</th>
                     <td><a href="{{ url_for('admin.article_del',id=foo.id,a='del') }}">删除</a></td>
                 </tr>
