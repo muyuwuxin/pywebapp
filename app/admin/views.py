@@ -8,6 +8,7 @@ from flask_login import login_required, current_user, login_user, logout_user
 from forms import LoginForm, RegistrationForm, PostArticleForm, PostCategoryForm
 from ..models import User, Article, Category
 from .. import db
+from sqlalchemy.exc import IntegrityError
 
 
 @admin.route('/')
@@ -64,9 +65,17 @@ def article():
     if form.validate_on_submit():
         acticle = Article(title=form.title.data, body=form.body.data, category_id=str(form.category_id.data.id),
                           user_id=current_user.id)
+        # try:
+        #     db.session.add(acticle)
+        #     flash(u'文章添加成功')
+        #     redirect(url_for('admin.index'))
+        # except IntegrityError as e:
+        #     db.session.rollback()
         db.session.add(acticle)
         flash(u'文章添加成功')
-        redirect(url_for('admin.index'))
+        # db.session.commit()
+        # db.session.rollback()
+        return redirect(url_for('admin.article'))
     return render_template('admin/article.html', form=form, list=alist)
 
 
@@ -90,9 +99,17 @@ def category():
     form = PostCategoryForm()
     if form.validate_on_submit():
         category = Category(name=form.name.data)
-        db.session.add(category)
-        flash(u'分类添加成功')
-        return redirect(url_for('admin.index'))
+        try:
+            db.session.add(category)
+            flash(u'分类添加成功')
+            return redirect(url_for('admin.category'))
+        except IntegrityError as e:
+            db.session.rollback()
+        # db.session.add(category)
+        # flash(u'分类添加成功')
+        # db.session.commit()
+        # db.session.rollback()
+        return redirect(url_for('admin.category'))
     return render_template('admin/category.html', form=form, list=clist)
 
 
