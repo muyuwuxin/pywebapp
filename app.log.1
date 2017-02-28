@@ -1,0 +1,61 @@
+Exception on /admin/category [GET]
+Traceback (most recent call last):
+  File "/home/tbccc/pywebapp/env/local/lib/python2.7/site-packages/flask/app.py", line 1982, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/tbccc/pywebapp/env/local/lib/python2.7/site-packages/flask/app.py", line 1614, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/tbccc/pywebapp/env/local/lib/python2.7/site-packages/flask/app.py", line 1517, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/tbccc/pywebapp/env/local/lib/python2.7/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/tbccc/pywebapp/env/local/lib/python2.7/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/tbccc/pywebapp/env/local/lib/python2.7/site-packages/flask_login/utils.py", line 226, in decorated_view
+    elif not current_user.is_authenticated:
+  File "/home/tbccc/pywebapp/env/local/lib/python2.7/site-packages/werkzeug/local.py", line 343, in __getattr__
+    return getattr(self._get_current_object(), name)
+  File "/home/tbccc/pywebapp/env/local/lib/python2.7/site-packages/werkzeug/local.py", line 302, in _get_current_object
+    return self.__local()
+  File "/home/tbccc/pywebapp/env/local/lib/python2.7/site-packages/flask_login/utils.py", line 26, in <lambda>
+    current_user = LocalProxy(lambda: _get_user())
+  File "/home/tbccc/pywebapp/env/local/lib/python2.7/site-packages/flask_login/utils.py", line 302, in _get_user
+    current_app.login_manager._load_user()
+  File "/home/tbccc/pywebapp/env/local/lib/python2.7/site-packages/flask_login/login_manager.py", line 317, in _load_user
+    return self.reload_user()
+  File "/home/tbccc/pywebapp/env/local/lib/python2.7/site-packages/flask_login/login_manager.py", line 279, in reload_user
+    user = self.user_callback(user_id)
+  File "/home/tbccc/pywebapp/app/models.py", line 57, in loader_user
+    return User.query.get(int(user_id))
+  File "/home/tbccc/pywebapp/env/local/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 831, in get
+    return self._get_impl(ident, loading.load_on_ident)
+  File "/home/tbccc/pywebapp/env/local/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 855, in _get_impl
+    self.session, key, attributes.PASSIVE_OFF)
+  File "/home/tbccc/pywebapp/env/local/lib/python2.7/site-packages/sqlalchemy/orm/loading.py", line 156, in get_from_identity
+    state._load_expired(state, passive)
+  File "/home/tbccc/pywebapp/env/local/lib/python2.7/site-packages/sqlalchemy/orm/state.py", line 592, in _load_expired
+    self.manager.deferred_scalar_loader(self, toload)
+  File "/home/tbccc/pywebapp/env/local/lib/python2.7/site-packages/sqlalchemy/orm/loading.py", line 698, in load_scalar_attributes
+    only_load_props=attribute_names)
+  File "/home/tbccc/pywebapp/env/local/lib/python2.7/site-packages/sqlalchemy/orm/loading.py", line 223, in load_on_ident
+    return q.one()
+  File "/home/tbccc/pywebapp/env/local/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2749, in one
+    ret = self.one_or_none()
+  File "/home/tbccc/pywebapp/env/local/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2719, in one_or_none
+    ret = list(self)
+  File "/home/tbccc/pywebapp/env/local/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2790, in __iter__
+    return self._execute_and_instances(context)
+  File "/home/tbccc/pywebapp/env/local/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2811, in _execute_and_instances
+    close_with_result=True)
+  File "/home/tbccc/pywebapp/env/local/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2820, in _get_bind_args
+    **kw
+  File "/home/tbccc/pywebapp/env/local/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2802, in _connection_from_session
+    conn = self.session.connection(**kw)
+  File "/home/tbccc/pywebapp/env/local/lib/python2.7/site-packages/sqlalchemy/orm/session.py", line 966, in connection
+    execution_options=execution_options)
+  File "/home/tbccc/pywebapp/env/local/lib/python2.7/site-packages/sqlalchemy/orm/session.py", line 971, in _connection_for_bind
+    engine, execution_options)
+  File "/home/tbccc/pywebapp/env/local/lib/python2.7/site-packages/sqlalchemy/orm/session.py", line 382, in _connection_for_bind
+    self._assert_active()
+  File "/home/tbccc/pywebapp/env/local/lib/python2.7/site-packages/sqlalchemy/orm/session.py", line 276, in _assert_active
+    % self._rollback_exception
+InvalidRequestError: This Session's transaction has been rolled back due to a previous exception during flush. To begin a new transaction with this Session, first issue Session.rollback(). Original exception was: (_mysql_exceptions.IntegrityError) (1062, "Duplicate entry '\xe5\x88\x86\xe7\xb1\xbbtest1' for key 'name'") [SQL: u'INSERT INTO categorys (name) VALUES (%s)'] [parameters: ('\xe5\x88\x86\xe7\xb1\xbbtest1',)]

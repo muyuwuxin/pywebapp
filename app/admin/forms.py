@@ -3,7 +3,7 @@
 
 
 from flask_wtf import FlaskForm
-from ..models import Category, User  # 解决重复的用户名而加上
+from ..models import Category, User, Article  # 解决重复的用户名,分类名和标题名而加上
 # 解决重复注册用户名加上的错误类型
 from wtforms import StringField, SubmitField, PasswordField, TextAreaField, ValidationError
 from wtforms.validators import Required, length, Regexp, EqualTo
@@ -39,7 +39,17 @@ class PostArticleForm(FlaskForm):
     ), get_pk=lambda a: str(a.id), get_label=lambda a: a.name)
     submit = SubmitField(u'发布')
 
+    def validate_title(self, field):  # 解决重复的文章标题名而加上
+        if Article.query.filter_by(title=field.data).first():
+            raise ValidationError(u'该标题已使用')
+        pass
+
 
 class PostCategoryForm(FlaskForm):
     name = StringField(u'分类名', validators=[Required(), length(6, 64)])
     submit = SubmitField(u'发布')
+
+    def validate_name(self, field):  # 解决重复的分类名而加上
+        if Category.query.filter_by(name=field.data).first():
+            raise ValidationError(u'该分类已使用')
+        pass

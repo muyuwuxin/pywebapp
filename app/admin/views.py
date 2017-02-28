@@ -94,19 +94,21 @@ def article_del():
 
 
 @admin.route('/category', methods=['GET', 'POST'])
+@login_required
 def category():
     clist = Category.query.all()
     form = PostCategoryForm()
     if form.validate_on_submit():
         category = Category(name=form.name.data)
-        try:
-            db.session.add(category)
-            flash(u'分类添加成功')
-            return redirect(url_for('admin.category'))
-        except IntegrityError as e:
-            db.session.rollback()
+        # try:
+        #     db.session.add(category)
+        #     flash(u'分类添加成功')
+        #     return redirect(url_for('admin.category'))
+        # except IntegrityError as e:
+        #     db.session.rollback()
         # db.session.add(category)
-        # flash(u'分类添加成功')
+        db.session.merge(category)
+        flash(u'分类添加成功')
         # db.session.commit()
         # db.session.rollback()
         return redirect(url_for('admin.category'))
