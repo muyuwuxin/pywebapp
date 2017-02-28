@@ -61,7 +61,7 @@ def logout():
 @login_required
 def article():
     form = PostArticleForm()
-    alist = Article.query.all()
+    alist = Article.query.filter_by(user_id=current_user.id).all()
     if form.validate_on_submit():
         acticle = Article(title=form.title.data, body=form.body.data, category_id=str(form.category_id.data.id),
                           user_id=current_user.id)
