@@ -18,11 +18,10 @@ class LoginForm(FlaskForm):
 
 class RegistrationForm(FlaskForm):
     username = StringField(u'用户名', validators=[DataRequired(), length(
-        6, 18), Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0, u'用户名只允许字母,用户名不允许特殊符号')])  # 这里本来有问题，说是多了参数,我把最后两个合在了一起
+        6, 18), Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0, u'用户名只允许字母数字以及下划线,用户名不允许特殊符号')])  # 这里本来有问题，说是多了参数,我把最后两个合在了一起
     password = PasswordField(
         u'密码', validators=[DataRequired(), EqualTo('password2', message=u'密码错误提示1')])
     password2 = PasswordField(u'重复密码', validators=[DataRequired()])
-    real_name = StringField(u'昵称', validators=[DataRequired()])
     registerkey = StringField(u'注册码', validators=[DataRequired()])
     submit = SubmitField(u'注册')
 

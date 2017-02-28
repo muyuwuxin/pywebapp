@@ -34,7 +34,7 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), unique=True)
     password_hash = db.Column(db.String(128))
-    real_name = db.Column(db.String(64), unique=True)
+    # real_name = db.Column(db.String(64), unique=True)
     articles = db.relationship('Article', backref='user')
 
     @property

@@ -42,7 +42,7 @@ def register():
                 return redirect(url_for('admin.register'))
             else:
                 user = User(username=form.username.data,
-                            password=form.password.data, real_name=form.real_name.data)
+                            password=form.password.data)
                 db.session.add(user)
                 flash(u'您已经注册成功')
                 return redirect(url_for('admin.login'))
