@@ -49,7 +49,7 @@ class PostCategoryForm(FlaskForm):
     name = StringField(u'分类名', validators=[Required(), length(6, 64)])
     submit = SubmitField(u'发布')
 
-    def validate_name(self, field):  # 解决重复的分类名而加上
+    def validate_name(self, field):  # 解决重复的分类名而加上,必须为对应的字段名字
         if Category.query.filter_by(name=field.data).first():
             raise ValidationError(u'该分类已使用')
         pass
