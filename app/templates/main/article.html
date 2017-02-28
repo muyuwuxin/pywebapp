@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block page_content %}
+<div class="container">
+       {% for foo in list %}
+           <div class="act">
+                 <div class="col-md-12">
+                     <h2><a href="{{ url_for('main.read' , id=foo.id) }}"></a>{{ foo.title }}</h2>
+                     <hr>
+                     <p>{{ foo.create_time }} | {{ foo.category.name }}</p>
+                 </div>
+           </div>
+       {% endfor %}
+   </div>
+{% endblock %}

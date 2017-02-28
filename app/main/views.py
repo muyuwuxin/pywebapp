@@ -20,3 +20,12 @@ def read():
         return render_template('main/read.html', list=the_article)
     flash(u'未找到相关文章')
     return redirect(url_for('main.index'))
+
+
+@main.route('/listarticle')
+def listarticle():
+    the_article = Article.query.filter_by(user_id=request.args.get('id')).all()
+    if the_article is not None:
+        return render_template('main/article.html', list=the_article)
+    flash(u'未找到该作者相关文章')
+    return redirect(url_for('main.index'))
