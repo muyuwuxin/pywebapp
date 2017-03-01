@@ -15,7 +15,8 @@ class Article(db.Model):
     title = db.Column(db.String(64), unique=True)
     # title = db.Column(db.String(64))
     body = db.Column(db.Text)
-    create_time = db.Column(db.DATETIME, default=datetime.utcnow())
+    create_time = db.Column(db.String(50), default=datetime.utcnow())
+    # create_time = db.Column(db.DATETIME, default=datetime.utcnow())
     category_id = db.Column(db.Integer, db.ForeignKey('categorys.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
@@ -60,7 +61,7 @@ class TodoList(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(1024), nullable=False)
     status = db.Column(db.Integer, nullable=False)
-    create_time = db.Column(db.String(1024), default=time.strftime(
+    create_time = db.Column(db.String(50), default=time.strftime(
         "%Y-%m-%d %A %X %Z", time.localtime()))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
