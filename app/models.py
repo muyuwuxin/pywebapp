@@ -15,7 +15,8 @@ class Article(db.Model):
     title = db.Column(db.String(64), unique=True)
     # title = db.Column(db.String(64))
     body = db.Column(db.Text)
-    create_time = db.Column(db.String(50), default=datetime.utcnow())
+    create_time = db.Column(db.String(50), default=time.strftime(
+        "%Y-%m-%d %A %X %Z", time.localtime()))
     # create_time = db.Column(db.DATETIME, default=datetime.utcnow())
     category_id = db.Column(db.Integer, db.ForeignKey('categorys.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
