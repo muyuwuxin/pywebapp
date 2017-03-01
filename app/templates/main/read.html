@@ -5,7 +5,7 @@
            <h2>{{ list.title }}</h2>
            <hr>
            <p>{{ list.create_time }} | {{ list.category.name }}</p>
-           {{ list.body }}
+           {{ list.body|safe }}
        </div>
    </div>
 {% endblock %}
