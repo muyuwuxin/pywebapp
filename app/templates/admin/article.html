@@ -5,7 +5,7 @@
 <script src="//cdn.ckeditor.com/4.5.11/full/ckeditor.js"></script>
 {% endblock %}
 {% block page_content %}
-    <div class="col-md-6">
+    <div class="col-md-8">
         <!-- {{ wtf.quick_form(form) }} -->
     <form class="form" method="POST">
     {{ form.hidden_tag() }}
@@ -15,7 +15,7 @@
     {{ wtf.form_field(form.submit) }}
     </form>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
         <table class="table">
             <thead>
             <tr>
