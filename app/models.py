@@ -6,6 +6,7 @@ from . import db, login_manager
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash  # 引入密码加密 验证方法
 from flask_login import UserMixin  # 引入flask-login用户模型继承类方法
+import time
 
 
 class Article(db.Model):
@@ -36,6 +37,7 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     # real_name = db.Column(db.String(64), unique=True)
     articles = db.relationship('Article', backref='user')
+    todolists = db.relationship('TodoList', backref='usertodo')
 
     @property
     def password(self):
@@ -51,6 +53,16 @@ class User(UserMixin, db.Model):
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
         pass
+
+
+class TodoList(db.Model):
+    __tablename__ = 'todolists'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(1024), nullable=False)
+    status = db.Column(db.Integer, nullable=False)
+    create_time = db.Column(db.String(1024), default=time.strftime(
+        "%Y-%m-%d %A %X %Z", time.localtime()))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
 
 @login_manager.user_loader

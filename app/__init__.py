@@ -32,4 +32,7 @@ def create_app(config_name):
     from .admin import admin as admin_blueprint
     app.register_blueprint(admin_blueprint, url_prefix='/admin')
 
+    from .todo import todo as todo_blueprint
+    app.register_blueprint(todo_blueprint, url_prefix='/todo')
+
     return app
