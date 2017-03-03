@@ -16,11 +16,13 @@
     </form>
     </div>
     <div class="col-md-4">
-        <table class="table">
+        <table class="table table-hover table-bordered">
             <thead>
             <tr>
                 <!-- <th>文章编号</th> -->
                 <th>文章标题</th>
+                <th>创建时间</th>
+                <th>分类</th>
                 <th>操作</th>
             </tr>
             </thead>
@@ -29,6 +31,8 @@
                 <tr>
                     <!-- <td>{{ foo.id }}</td> -->
                     <th>{{ foo.title }}</th>
+                    <th>{{ foo.create_time }}</th>
+                    <th>{{ foo.category.name }}</th>
                     <td><a href="{{ url_for('admin.article_del',id=foo.id,a='del') }}">删除</a></td>
                 </tr>
             {% endfor %}

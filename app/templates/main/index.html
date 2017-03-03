@@ -6,7 +6,7 @@
                 <h3><a href="{{ url_for('main.read' , id=foo.id) }}">{{foo.title}}</a></h3>
             </div>
             <h6>BY:<a href="{{url_for('main.listarticle',id=foo.user_id)}}">{{foo.user.username}}</a></h6>
-            <p>{{foo.body|safe}}</p>
+            <p>{{foo.body|safe|truncate(100,True)}}</p>
         {% endfor %}
     </div>
 {% endblock %}

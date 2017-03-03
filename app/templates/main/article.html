@@ -7,6 +7,7 @@
                      <h2><a href="{{ url_for('main.read' , id=foo.id) }}"></a>{{ foo.title }}</h2>
                      <hr>
                      <p>{{ foo.create_time }} | {{ foo.category.name }}</p>
+                     <p>{{foo.body|safe}}</p>
                  </div>
            </div>
        {% endfor %}
