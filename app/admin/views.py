@@ -76,7 +76,20 @@ def article():
         # db.session.commit()
         # db.session.rollback()
         return redirect(url_for('admin.article'))
-    return render_template('admin/article.html', form=form, list=alist)
+    return render_template('admin/article.html', form=form, list=alist, username=current_user.username)
+
+
+@admin.route('/writearticle', methods=['GET', 'POST'])
+@login_required
+def writearticle():
+    form = PostArticleForm()
+    if form.validate_on_submit():
+        acticle = Article(title=form.title.data, body=form.body.data, category_id=str(form.category_id.data.id),
+                          user_id=current_user.id)
+        db.session.add(acticle)
+        flash(u'文章添加成功')
+        return redirect(url_for('admin.article'))
+    return render_template('admin/writearticle.html', form=form)
 
 
 @admin.route('/article/del', methods=['GET'])

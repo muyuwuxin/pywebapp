@@ -5,21 +5,11 @@
 <script src="//cdn.ckeditor.com/4.5.11/full/ckeditor.js"></script>
 {% endblock %}
 {% block page_content %}
-    <div class="col-md-8">
-        <!-- {{ wtf.quick_form(form) }} -->
-    <form class="form" method="POST">
-    {{ form.hidden_tag() }}
-    {{ wtf.form_field(form.title) }}
-    {{ wtf.form_field(form.body,class="ckeditor") }}
-    {{ wtf.form_field(form.category_id) }}
-    {{ wtf.form_field(form.submit) }}
-    </form>
-    </div>
-    <div class="col-md-4">
+    <div class="col-md-12">
+      <h1 align="center">Hello,{{username}}</h1>
         <table class="table table-hover table-bordered">
             <thead>
             <tr>
-                <!-- <th>文章编号</th> -->
                 <th>文章标题</th>
                 <th>创建时间</th>
                 <th>分类</th>
@@ -38,5 +28,7 @@
             {% endfor %}
             </tbody>
         </table>
+        <button class="btn btn-default" type="button" ><a href="{{ url_for('admin.writearticle') }}">写文章</a></button>
+        <!-- 一开始button没有被a标签完全包住所以点击button没有任何作用 -->
     </div>
 {% endblock %}
