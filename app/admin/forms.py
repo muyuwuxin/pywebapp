@@ -52,3 +52,16 @@ class PostCategoryForm(FlaskForm):
         if Category.query.filter_by(name=field.data).first():
             raise ValidationError(u'该分类已使用')
         pass
+
+
+class EditArticleForm(FlaskForm):
+    # title = StringField(u'标题', validators=[length(0, 64)])
+    body = TextAreaField(u'内容')
+    # category_id = QuerySelectField(u'分类', query_factory=lambda: Category.query.all(
+    # ), get_pk=lambda a: str(a.id), get_label=lambda a: a.name)
+    submit = SubmitField(u'保存')
+
+    def validate_title(self, field):  # 解决重复的文章标题名而加上
+        if Article.query.filter_by(title=field.data).first():
+            raise ValidationError(u'该标题已使用')
+        pass

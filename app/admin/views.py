@@ -5,7 +5,8 @@
 from . import admin
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import login_required, current_user, login_user, logout_user
-from forms import LoginForm, RegistrationForm, PostArticleForm, PostCategoryForm
+from forms import LoginForm, RegistrationForm, PostArticleForm, \
+    PostCategoryForm, EditArticleForm
 from ..models import User, Article, Category
 from .. import db
 from sqlalchemy.exc import IntegrityError
@@ -63,7 +64,8 @@ def article():
     form = PostArticleForm()
     alist = Article.query.filter_by(user_id=current_user.id).all()
     if form.validate_on_submit():
-        acticle = Article(title=form.title.data, body=form.body.data, category_id=str(form.category_id.data.id),
+        article = Article(title=form.title.data, body=form.body.data,
+                          category_id=str(form.category_id.data.id),
                           user_id=current_user.id)
         # try:
         #     db.session.add(acticle)
@@ -71,22 +73,24 @@ def article():
         #     redirect(url_for('admin.index'))
         # except IntegrityError as e:
         #     db.session.rollback()
-        db.session.add(acticle)
+        db.session.add(article)
         flash(u'文章添加成功')
         # db.session.commit()
         # db.session.rollback()
         return redirect(url_for('admin.article'))
-    return render_template('admin/article.html', form=form, list=alist, username=current_user.username)
+    return render_template('admin/article.html', form=form, list=alist,
+                           username=current_user.username)
 
 
-@admin.route('/writearticle', methods=['GET', 'POST'])
+@admin.route('/article/write', methods=['GET', 'POST'])
 @login_required
-def writearticle():
+def article_write():
     form = PostArticleForm()
     if form.validate_on_submit():
-        acticle = Article(title=form.title.data, body=form.body.data, category_id=str(form.category_id.data.id),
+        article = Article(title=form.title.data, body=form.body.data,
+                          category_id=str(form.category_id.data.id),
                           user_id=current_user.id)
-        db.session.add(acticle)
+        db.session.add(article)
         flash(u'文章添加成功')
         return redirect(url_for('admin.article'))
     return render_template('admin/writearticle.html', form=form)
@@ -104,6 +108,22 @@ def article_del():
             return redirect(url_for('admin.article'))
         flash(u'请检查输入')
         return redirect(url_for('admin.article'))
+
+
+@admin.route('/article/edit/<int:id>', methods=['GET', 'POST'])
+@login_required
+def article_edit(id):
+    article = Article.query.get_or_404(id)
+    form = EditArticleForm()
+    # if form.validate_on_submit():
+    if request.method == 'POST':
+        article.body = form.body.data
+        db.session.add(article)
+        flash(u'成功修改文章')
+        return redirect(url_for('main.read', id=id))
+    if request.method == 'GET':
+        form.body.data = article.body
+        return render_template('admin/editarticle.html', form=form)
 
 
 @admin.route('/category', methods=['GET', 'POST'])

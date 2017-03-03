@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% block head %}
+{{ super() }}
+<script src="//cdn.ckeditor.com/4.5.11/full/ckeditor.js"></script>
+{% endblock %}
+{% block page_content %}
+    <div class="col-md-12">
+    <form class="form" method="POST">
+    {{ wtf.form_field(form.body,class="ckeditor")}}
+    {{ wtf.form_field(form.submit) }}
+    </form>
+    </div>
+{% endblock %}

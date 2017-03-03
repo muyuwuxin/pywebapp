@@ -13,22 +13,24 @@
                 <th>文章标题</th>
                 <th>创建时间</th>
                 <th>分类</th>
-                <th>操作</th>
+                <th>删除</th>
+                <th>编辑</th>
             </tr>
             </thead>
             <tbody>
             {% for foo in list %}
                 <tr>
                     <!-- <td>{{ foo.id }}</td> -->
-                    <th>{{ foo.title }}</th>
-                    <th>{{ foo.create_time }}</th>
-                    <th>{{ foo.category.name }}</th>
+                    <td>{{ foo.title }}</td>
+                    <td>{{ foo.create_time }}</td>
+                    <td>{{ foo.category.name }}</td>
                     <td><a href="{{ url_for('admin.article_del',id=foo.id,a='del') }}">删除</a></td>
+                    <td><a href="{{url_for('admin.article_edit',id=foo.id)}}">编辑</a></td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
-        <button class="btn btn-default" type="button" ><a href="{{ url_for('admin.writearticle') }}">写文章</a></button>
+        <button class="btn btn-default" type="button" ><a href="{{ url_for('admin.article_write') }}">写文章</a></button>
         <!-- 一开始button没有被a标签完全包住所以点击button没有任何作用 -->
     </div>
 {% endblock %}
