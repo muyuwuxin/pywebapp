@@ -1,12 +1,37 @@
 {% extends 'base.html' %}
 {% block page_content %}
+{% block head %}
+{{ super() }}
+<script src="//cdn.ckeditor.com/4.5.11/full/ckeditor.js"></script>
+<link href="/static/css/styles.css" type="text/css" rel="stylesheet">
+{% endblock %}
     <div class="col-md-8">
         {% for foo in list %}
-            <div class="act">
+            <div class="act post-summary">
                 <h3><a href="{{ url_for('main.read' , id=foo.id) }}">{{foo.title}}</a></h3>
             </div>
-            <h6>BY:<a href="{{url_for('main.listarticle',id=foo.user_id)}}">{{foo.user.username}}</a></h6>
-            <p>{{foo.body|safe|truncate(100,True)}}</p>
+            <h6>BY:<a href="{{url_for('main.listarticle',id=foo.user_id)}}"><span class="label label-info">{{foo.user.username}}</span></a></h6>
+            <p>{{foo.body|safe|truncate(305,True)}}</p>
+            <p>{{foo.comments.count()}} Comments</p>
+            <hr>
         {% endfor %}
     </div>
 {% endblock %}
+{% for foo in list %}
+<div class="main-blog">
+  <div class="post-summary">
+    <div class="post-head">
+      <h3><a href="{{ url_for('main.read' , id=foo.id) }}">{{foo.title}}</a></h3>
+      <div class="post-body">
+        <h6>BY:<a href="{{url_for('main.listarticle',id=foo.user_id)}}"><span class="label label-info">{{foo.user.username}}</span></a></h6>
+        <p>{{foo.body|safe|truncate(305,True)}}</p>
+        <div class="post-footer">
+      <p>{{foo.comments.count()}} Comments</p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>

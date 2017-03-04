@@ -6,6 +6,15 @@
            <hr>
            <p>{{ list.create_time }} | {{ list.category.name }}</p>
            {{ list.body|safe }}
+         <hr>
+         <h3>评论区</h3>
+          <!-- <p>{{list.comments.body|safe}}</p> -->
+          {% for foo in list.comments %}
+          <h4><span class="label label-info">{{foo.user.username}}评论道:</span></h4>
+          <p>{{foo.body|safe}}</p>
+          {%endfor%}
+           <a href="{{ url_for('main.comment',id=list.id) }}"><button class="btn btn-default" type="button" >写评论</button></a>
+           <!-- button得放在a标签里面 -->
        </div>
-   </div>
+</div>
 {% endblock %}

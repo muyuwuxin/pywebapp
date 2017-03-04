@@ -20,6 +20,7 @@ class Article(db.Model):
     # create_time = db.Column(db.DATETIME, default=datetime.utcnow())
     category_id = db.Column(db.Integer, db.ForeignKey('categorys.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    comments = db.relationship('Comment', backref='article', lazy='dynamic')
 
 
 class Category(db.Model):
@@ -38,8 +39,9 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(64), unique=True)
     password_hash = db.Column(db.String(128))
     # real_name = db.Column(db.String(64), unique=True)
-    articles = db.relationship('Article', backref='user')
-    todolists = db.relationship('TodoList', backref='usertodo')
+    articles = db.relationship('Article', backref='user', lazy='dynamic')
+    todolists = db.relationship('TodoList', backref='user', lazy='dynamic')
+    comments = db.relationship('Comment', backref='user', lazy='dynamic')
 
     @property
     def password(self):
@@ -70,3 +72,13 @@ class TodoList(db.Model):
 @login_manager.user_loader
 def loader_user(user_id):
     return User.query.get(int(user_id))
+
+
+class Comment(db.Model):
+    __tablename__ = 'comments'
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.Text)
+    timestamp = db.Column(db.DATETIME, index=True, default=datetime.utcnow)
+    disabled = db.Column(db.Boolean)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    article_id = db.Column(db.Integer, db.ForeignKey('articles.id'))

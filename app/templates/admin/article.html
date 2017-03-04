@@ -30,7 +30,7 @@
             {% endfor %}
             </tbody>
         </table>
-        <button class="btn btn-default" type="button" ><a href="{{ url_for('admin.article_write') }}">写文章</a></button>
+        <a href="{{ url_for('admin.article_write') }}"><button class="btn btn-default" type="button" >写文章</button></a>
         <!-- 一开始button没有被a标签完全包住所以点击button没有任何作用 -->
     </div>
 {% endblock %}
