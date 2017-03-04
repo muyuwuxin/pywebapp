@@ -114,7 +114,7 @@ def article_del():
 @login_required
 def article_edit(id):
     article = Article.query.get_or_404(id)
-    form = EditArticleForm()
+    form = PostArticleForm()
     # if form.validate_on_submit():
     if request.method == 'POST':
         article.body = form.body.data
