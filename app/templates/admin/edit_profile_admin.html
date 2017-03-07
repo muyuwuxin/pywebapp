@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}编辑资料{% endblock %}
+{% block head %}
+{{ super() }}
+<script src="//cdn.ckeditor.com/4.5.11/full/ckeditor.js"></script>
+{% endblock %}
+{% block page_content %}
+<div class="page-header">
+    <h1>编辑资料</h1>
+</div>
+<div class="col-md-12">
+  <form class="form" method="POST">
+  {{ wtf.form_field(form.location) }}
+  {{ wtf.form_field(form.about_me,class="ckeditor")}}
+  {{ wtf.form_field(form.role) }}
+  {{ wtf.form_field(form.submit) }}
+  </form>
+</div>
+{% endblock %}

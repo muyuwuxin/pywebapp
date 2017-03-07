@@ -43,6 +43,8 @@ class User(UserMixin, db.Model):
     todolists = db.relationship('TodoList', backref='user', lazy='dynamic')
     comments = db.relationship('Comment', backref='user', lazy='dynamic')
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+    location = db.Column(db.String(64))
+    about_me = db.Column(db.Text())
 
     @property
     def password(self):

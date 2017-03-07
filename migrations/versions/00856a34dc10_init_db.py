@@ -1,8 +1,8 @@
 """init db
 
-Revision ID: a06cb21a84e3
+Revision ID: 00856a34dc10
 Revises: 
-Create Date: 2017-03-04 20:41:36.342509
+Create Date: 2017-03-06 15:27:09.351121
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'a06cb21a84e3'
+revision = '00856a34dc10'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -23,10 +23,21 @@ def upgrade():
     sa.Column('name', sa.String(length=64), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_table('roles',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('name', sa.String(length=64), nullable=True),
+    sa.Column('default', sa.Boolean(), nullable=True),
+    sa.Column('permissions', sa.Integer(), nullable=True),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('name')
+    )
+    op.create_index(op.f('ix_roles_default'), 'roles', ['default'], unique=False)
     op.create_table('users',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('username', sa.String(length=64), nullable=True),
     sa.Column('password_hash', sa.String(length=128), nullable=True),
+    sa.Column('role_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['role_id'], ['roles.id'], ),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('username')
     )
@@ -71,5 +82,7 @@ def downgrade():
     op.drop_table('todolists')
     op.drop_table('articles')
     op.drop_table('users')
+    op.drop_index(op.f('ix_roles_default'), table_name='roles')
+    op.drop_table('roles')
     op.drop_table('categorys')
     # ### end Alembic commands ###

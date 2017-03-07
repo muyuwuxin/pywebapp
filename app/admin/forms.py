@@ -3,10 +3,10 @@
 
 
 from flask_wtf import FlaskForm
-from ..models import Category, User, Article  # 解决重复的用户名,分类名和标题名而加上
+from ..models import Category, User, Article, Role  # 解决重复的用户名,分类名和标题名而加上
 # 解决重复注册用户名加上的错误类型
 from wtforms import StringField, SubmitField, PasswordField, TextAreaField,\
-    ValidationError
+    ValidationError, BooleanField, SelectField
 from wtforms.validators import DataRequired, length, Regexp, EqualTo
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 
@@ -70,3 +70,41 @@ class EditArticleForm(FlaskForm):
         if Article.query.filter_by(title=field.data).first():
             raise ValidationError(u'该标题已使用')
         pass
+
+
+class EditProfileForm(FlaskForm):
+    location = StringField(u'地址', validators=[length(0, 64)])
+    about_me = TextAreaField(u'关于我')
+    submit = SubmitField(u'提交')
+
+
+class EditProfileAdminForm(FlaskForm):
+    # email = StringField('Email', validators=[DataRequired(), length(1, 64),
+    #                                          Email()])
+    username = StringField('Username', validators=[
+        DataRequired(), length(1, 64), Regexp('^[A-Za-z][A-Za-z0-9_.]*$',
+                                              0, 'Usernames must have only \
+                                              letters, '
+                                              'numbers, dots or underscores')])
+    # confirmed = BooleanField('Confirmed')
+    role = SelectField('Role', coerce=int)
+    # name = StringField('Real name', validators=[Length(0, 64)])
+    location = StringField('Location', validators=[length(0, 64)])
+    about_me = TextAreaField('About me')
+    submit = SubmitField('Submit')
+
+    def __init__(self, user, *args, **kwargs):
+        super(EditProfileAdminForm, self).__init__(*args, **kwargs)
+        self.role.choices = [(role.id, role.name)
+                             for role in Role.query.order_by(Role.name).all()]
+        self.user = user
+
+    # def validate_email(self, field):
+    #     if field.data != self.user.email and \
+    #             User.query.filter_by(email=field.data).first():
+    #         raise ValidationError('Email already registered.')
+
+    # def validate_username(self, field):
+    #     if field.data != self.user.username and \
+    #             User.query.filter_by(username=field.data).first():
+    #         raise ValidationError('Username already in use.')
