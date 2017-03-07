@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% import "_macros.html" as macros %}
+
 {% block page_content %}
 {% block head %}
 {{ super() }}
@@ -24,4 +26,10 @@
         </div>
         {% endfor %}
     </div>
+    {% if pagination %}
+<div class="pagination">
+    {{ macros.pagination_widget(pagination, 'main.listarticle',id=id) }}
+    <!-- #注意此处要把参数传递进去 -->
+</div>
+{% endif %}
 {% endblock %}

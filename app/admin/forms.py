@@ -81,11 +81,11 @@ class EditProfileForm(FlaskForm):
 class EditProfileAdminForm(FlaskForm):
     # email = StringField('Email', validators=[DataRequired(), length(1, 64),
     #                                          Email()])
-    username = StringField('Username', validators=[
-        DataRequired(), length(1, 64), Regexp('^[A-Za-z][A-Za-z0-9_.]*$',
-                                              0, 'Usernames must have only \
-                                              letters, '
-                                              'numbers, dots or underscores')])
+    # username = StringField('Username', validators=[
+    #     DataRequired(), length(1, 64), Regexp('^[A-Za-z][A-Za-z0-9_.]*$',
+    #                                           0, 'Usernames must have only \
+    #                                           letters, '
+    #                                           'numbers, dots or underscores')])
     # confirmed = BooleanField('Confirmed')
     role = SelectField('Role', coerce=int)
     # name = StringField('Real name', validators=[Length(0, 64)])

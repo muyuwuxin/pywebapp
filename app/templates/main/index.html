@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% import "_macros.html" as macros %}
+
 {% block page_content %}
 {% block head %}
 {{ super() }}
@@ -7,31 +9,26 @@
 {% endblock %}
     <div class="col-md-8">
         {% for foo in list %}
-            <div class="act post-summary">
-                <h3><a href="{{ url_for('main.read' , id=foo.id) }}">{{foo.title}}</a></h3>
+        <div class="blog-main">
+          <div class="post-summary">
+            <div class="post-head">
+              <h3><a href="{{ url_for('main.read' , id=foo.id) }}">{{foo.title}}</a></h3>
             </div>
-            <h6>BY:<a href="{{url_for('main.listarticle',id=foo.user_id)}}"><span class="label label-info">{{foo.user.username}}</span></a></h6>
-            <p>{{foo.body|safe|truncate(305,True)}}</p>
-            <p>{{foo.comments.count()}} Comments</p>
-            <hr>
+            <h6><a href="{{url_for('main.listarticle',id=foo.user_id)}}"><span class="label label-info">{{foo.user.username}}</span></a>&nbsp;&nbsp;{{foo.comments.count()}} Comments</h6>
+            <div class="post-body">
+                <p>{{foo.body|safe|truncate(305,True)}}</p>
+            </div>
+              <div class="post-footer">
+              <a href="{{ url_for('main.read' , id=foo.id) }}">
+                  <button class="btn btn-default" type="button">阅读全文</button>
+              </a>
+              </div>
+        </div>
         {% endfor %}
     </div>
-{% endblock %}
-{% for foo in list %}
-<div class="main-blog">
-  <div class="post-summary">
-    <div class="post-head">
-      <h3><a href="{{ url_for('main.read' , id=foo.id) }}">{{foo.title}}</a></h3>
-      <div class="post-body">
-        <h6>BY:<a href="{{url_for('main.listarticle',id=foo.user_id)}}"><span class="label label-info">{{foo.user.username}}</span></a></h6>
-        <p>{{foo.body|safe|truncate(305,True)}}</p>
-        <div class="post-footer">
-      <p>{{foo.comments.count()}} Comments</p>
-        </div>
-
-      </div>
-    </div>
-
-  </div>
-
+    {% if pagination %}
+<div class="pagination">
+    {{ macros.pagination_widget(pagination, 'main.index') }}
 </div>
+{% endif %}
+{% endblock %}

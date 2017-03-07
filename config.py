@@ -11,6 +11,7 @@ class Config:
     SECRET_KEY = 'A KEY HHH'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = True
+    FLASKY_POSTS_PER_PAGE = 5
 
     @staticmethod
     def init_app(app):
