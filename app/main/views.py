@@ -95,13 +95,13 @@ def comment(id):
 def follow(username):
     user = User.query.filter_by(username=username).first()
     if user is None:
-        flash(u'Invalid user.')
+        flash(u'无效用户')
         return redirect(url_for('main.index'))
     if current_user.is_following(user):
-        flash('You are already following this user.')
+        flash(u'你已经关注此用户')
         return redirect(url_for('admin.user', username=username))
     current_user.follow(user)
-    flash('You are now following %s.' % username)
+    flash(u'你正在关注 %s.' % username)
     return redirect(url_for('.user', username=username))
 
 
@@ -114,10 +114,10 @@ def unfollow(username):
         flash('Invalid user.')
         return redirect(url_for('main.index'))
     if not current_user.is_following(user):
-        flash('You are not following this user.')
+        flash(u'你没有关注此用户')
         return redirect(url_for('main.user', username=username))
     current_user.unfollow(user)
-    flash('You are not following %s anymore.' % username)
+    flash(u'你没有关注 %s anymore.' % username)
     return redirect(url_for('main.user', username=username))
 
 
@@ -142,7 +142,7 @@ def followers(username):
 def followed_by(username):
     user = User.query.filter_by(username=username).first()
     if user is None:
-        flash('Invalid user.')
+        flash(u'无效用户')
         return redirect(url_for('main.index'))
     page = request.args.get('page', 1, type=int)
     pagination = user.followed.paginate(
