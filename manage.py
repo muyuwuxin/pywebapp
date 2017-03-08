@@ -35,7 +35,7 @@ def deploy():
     Role.insert_roles()
 
     # create self-follows for all users
-    # User.add_self_follows()
+    User.add_self_follows()
 
 
 if __name__ == '__main__':

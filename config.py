@@ -2,7 +2,7 @@
 # -*-coding:utf-8-*-
 
 import os
-import psycopg2
+# import psycopg2
 from logging.handlers import RotatingFileHandler
 from flask import logging
 
@@ -24,8 +24,8 @@ class Config:
 
 
 class DevelopmentConfig(Config):
-    # SQLALCHEMY_DATABASE_URI = 'mysql://flask:flask@127.0.0.1/flask_dev'
-    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+    SQLALCHEMY_DATABASE_URI = 'mysql://flask:flask@127.0.0.1/flask_dev'
+    # SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
 
 
 config = {
