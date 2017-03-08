@@ -12,6 +12,7 @@ class Config:
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     FLASKY_POSTS_PER_PAGE = 5
+    FLASKY_FOLLOWERS_PER_PAGE = 50
 
     @staticmethod
     def init_app(app):

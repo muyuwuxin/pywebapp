@@ -162,11 +162,11 @@ def category_del():
         return redirect(url_for('admin.category'))
 
 
-@admin.route('/user/<username>')
-@login_required
-def user(username):
-    user = User.query.filter_by(username=username).first_or_404()
-    return render_template('admin/user.html', user=user)
+# @admin.route('/user/<username>')
+# @login_required
+# def user(username):
+#     user = User.query.filter_by(username=username).first_or_404()
+#     return render_template('admin/user.html', user=user)
 
 
 @admin.route('/edit-profile', methods=['GET', 'POST'])
@@ -189,7 +189,7 @@ def edit_profile():
         current_user.about_me = form.about_me.data
         db.session.add(current_user)
         flash(u'资料已更新.')
-        return redirect(url_for('admin.user', username=current_user.username))
+        return redirect(url_for('main.user', username=current_user.username))
     if request.method == 'GET':
         form.location.data = current_user.location
         form.about_me.data = current_user.about_me
@@ -231,7 +231,7 @@ def edit_profile_admin(id):
         user.about_me = form.about_me.data
         db.session.add(user)
         flash(u'资料已被管理员修改')
-        return redirect(url_for('admin.user', username=user.username))
+        return redirect(url_for('main.user', username=user.username))
     if request.method == 'GET':
         # form.username.data = user.username
         # form.confirmed.data = user.confirmed
