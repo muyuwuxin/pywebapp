@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+
+{% block title %}{{ user.name }}{% endblock %}
+
+{% block page_content %}
+<div class="row">
+    <div class="col-md-9">
+        <div class="text-center container-fluid">
+            {% if album_count == 0 %}
+            {% if current_user == user %}
+            <h3>你还没有相册，快来<a href="{{ url_for('main.new_album') }}">创建</a>一个吧！</h3>
+            {% else %}
+            <h3>他/她还没有创建相册。</h3>
+            {% endif %}
+            {% endif %}
+            <div class="row text-center">
+                {% for album in albums %}
+                {% if not album.no_public or current_user == user%}
+                <div class="album col-md-3">
+                    <div class="album-frame">
+                        <a class="thumbnail album-thumbnail" href="{{ url_for('main.album', id=album.id) }}">
+                            <img class="img-responsive portrait" src="{{ album.cover }}">
+                        </a>
+                    </div>
+                    <div class="info">
+                        <h5><a href="{{ url_for('.album', id=album.id) }}">{{ album.title }}</a></h5>
+                        <span>{{ album.photos.count() }}张图片</span>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+        <hr>
+        <div class="data-area">
+            <i class="glyphicon glyphicon-user"></i>
+            关注者<a href="{{ url_for('.followers', username=user.username) }}"><span class="badge">{{ user.followers.count()-1}}</span></a>
+            <br>
+            <i class="glyphicon glyphicon-user"></i>
+            正在关注<a href="{{ url_for('.followed_by', username=user.username) }}"><span class="badge">{{ user.followed.count()-1}}</span></a>
+            <br>
+            <i class="glyphicon glyphicon-th-large"></i> 相册{{ album_count }}
+            <br>
+            <i class="glyphicon glyphicon-picture"></i> 照片{{ photo_count }}
+            <br>
+            {% if user.location %}
+            <i class="glyphicon glyphicon-map-marker"></i>
+            <a href="http://maps.google.com/?q={{ user.location }}">{{ user.location }}</a><br>
+            {% endif %}
+            {% if user.website %}
+            <i class="glyphicon glyphicon-link"></i>
+            <a href="{{ user.website }}" target="_blank">{{ user.website }}</a><br>
+            {% endif %}
+            <a href="{{ url_for('main.new_album') }}"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                     data-target="#myModal">创建相册</button></a>
+
+        </div>
+
+        {% if user.about_me %}
+        <hr>
+        <div class="about-area">
+            {{ about_me|safe }}
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="text-center">
+    {{ macros.pagination_widget(pagination, '.albums', username=user.username) }}
+</div>
+<hr>
+{% endblock %}

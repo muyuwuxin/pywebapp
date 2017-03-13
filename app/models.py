@@ -64,6 +64,8 @@ class User(UserMixin, db.Model):
                                 backref=db.backref('followed', lazy='joined'),
                                 lazy='dynamic',
                                 cascade='all, delete-orphan')
+    albums = db.relationship('Album', backref='author', lazy='dynamic')
+    photos = db.relationship('Photo', backref='author', lazy='dynamic')
 
     @staticmethod
     def add_self_follows():
@@ -159,6 +161,7 @@ class Comment(db.Model):
     disabled = db.Column(db.Boolean)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     article_id = db.Column(db.Integer, db.ForeignKey('articles.id'))
+    photo_id = db.Column(db.Integer, db.ForeignKey('photos.id'))
 
 
 class Permission:
@@ -200,3 +203,33 @@ class Role(db.Model):
 
     def __repr__(self):
         return '<Role %r>' % self.name
+
+
+class Photo(db.Model):
+    __tablename__ = 'photos'
+    id = db.Column(db.Integer, primary_key=True)
+    url = db.Column(db.String(64))
+    url_s = db.Column(db.String(64))
+    url_t = db.Column(db.String(64))
+    about = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    order = db.Column(db.Integer)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    album_id = db.Column(db.Integer, db.ForeignKey('albums.id'))
+    comments = db.relationship('Comment', backref='photo', lazy='dynamic')
+
+
+class Album(db.Model):
+    __tablename__ = 'albums'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(64))
+    about = db.Column(db.Text)
+    cover = db.Column(db.String(64))
+    type = db.Column(db.Integer, default=0)
+    tag = db.Column(db.String(64))
+    no_public = db.Column(db.Boolean, default=True)
+    no_comment = db.Column(db.Boolean, default=True)
+    asc_order = db.Column(db.Boolean, default=True)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    photos = db.relationship('Photo', backref='album', lazy='dynamic')

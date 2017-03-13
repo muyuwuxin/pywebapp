@@ -7,6 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
 from flask_login import LoginManager
 from config import config
+from flask_uploads import UploadSet, configure_uploads, IMAGES
 
 
 db = SQLAlchemy()
@@ -15,6 +16,7 @@ login_manager = LoginManager()
 login_manager.session_protection = 'strong'  # 设置flask_login session等级
 login_manager.login_view = 'admin.login'  # 如果未登入转跳到指定方法
 login_manager.login_message = u'请登入账号再进行下一步操作!'  # 未登入提示语
+photos = UploadSet('photos', IMAGES)
 
 
 def create_app(config_name):
@@ -25,6 +27,8 @@ def create_app(config_name):
     db.init_app(app)
     bootstrap.init_app(app)
     login_manager.init_app(app)
+
+    configure_uploads(app, photos)
 
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
