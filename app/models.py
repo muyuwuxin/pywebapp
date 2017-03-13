@@ -30,7 +30,7 @@ class Category(db.Model):
     # id = db.Column(db.Integer)
     # name = db.Column(db.String(64), unique=True)
     name = db.Column(db.String(64))
-    articles = db.relationship('Article', backref='category')
+    articles = db.relationship('Article', backref='category', lazy='dynamic')
 
 
 class Follow(db.Model):

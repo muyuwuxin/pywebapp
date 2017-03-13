@@ -25,7 +25,7 @@ class NewAlbumForm(FlaskForm):
         FileAllowed(photos, u'只能上传图片！')
     ])
     asc_order = SelectField(u'显示顺序',
-                            choices=[('True', u'按上传时间倒序排列'), ('False', u'按上传时间倒序排列')])
+                            choices=[('True', u'按上传时间顺序排列'), ('False', u'按上传时间倒序排列')])
     no_public = BooleanField(u'私密相册（勾选后相册仅自己可见）')
     no_comment = BooleanField(u'禁止评论')
     submit = SubmitField(u'提交')

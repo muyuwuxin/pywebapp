@@ -11,7 +11,7 @@ from flask_login import login_required, current_user
 from flask import render_template, request, redirect, flash, url_for,\
     current_app, send_from_directory, abort
 from ..decorators import admin_required, permission_required
-from ..models import Article, Comment, User, Permission, Album, Photo
+from ..models import Article, Comment, User, Permission, Album, Photo, Category
 from .forms import CommentForm, NewAlbumForm, EditAlbumForm, AddPhotoForm
 from . import main
 from .. import db, photos
@@ -19,16 +19,16 @@ from .. import db, photos
 
 @main.route('/')
 def index():
-    # articlelist = Article.query.all()
+    categorys = Category.query.all()
     page = request.args.get('page', 1, type=int)
     pagination = Article.query.paginate(
         page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
         error_out=False)
     articles = pagination.items
-    return render_template('main/index.html',  list=articles,
+    return render_template('main/index.html',
+                           list=articles,
+                           categorys=categorys,
                            pagination=pagination)
-
-    # return render_template('main/indextest.html', list=articles)
 
 
 @main.route('/read/<int:id>', methods=['POST', 'GET'])
@@ -514,3 +514,17 @@ def delete_album(id):
     db.session.commit()
     flash(u'删除成功。', 'success')
     return redirect(url_for('.albums', username=album.author.username))
+
+
+@main.route('/category/<int:id>', methods=['POST', 'GET'])
+def category(id):
+    category = Category.query.filter_by(id=id).first_or_404()
+    page = request.args.get('page', 1, type=int)
+    pagination = category.articles.paginate(
+        page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
+        error_out=False)
+    articles = pagination.items
+    return render_template('main/category_articles.html',
+                           list=articles,
+                           category=category,
+                           pagination=pagination)

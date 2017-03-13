@@ -5,7 +5,9 @@
             <div class="post-head">
               <h3><a href="{{ url_for('main.read' , id=foo.id) }}">{{foo.title}}</a></h3>
             </div>
-            <h6><a href="{{url_for('main.listarticle',id=foo.user_id)}}"><span class="label label-info">{{foo.user.username}}</span></a>&nbsp;&nbsp;{{foo.comments.count()}} Comments</h6>
+            <h6><a href="{{url_for('main.listarticle',id=foo.user_id)}}"><span class="label label-info">{{foo.user.username}}</span></a>
+              &nbsp;<span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;{{foo.comments.count()}} Comments
+            &nbsp;<span class="glyphicon glyphicon-tag"></span><a href="{{url_for('main.category',id=foo.category.id)}}">{{foo.category.name}}</a></h6>
             <div class="post-body">
                 <p>{{foo.body|safe|truncate(305,True)}}</p>
             </div>

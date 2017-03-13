@@ -1,0 +1,247 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <title>
+zgj.herokuapp.com
+</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<link rel="shortcut icon" href="/static/logo.png" type="image/x-icon">
+<link rel="icon" href="/static/logo.png" type="image/x-icon">
+<link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+
+
+  </head>
+  <body>
+
+<div class="navbar navbar-inverse navbar-static-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">zgj.herokuapp.com</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/">首页</a></li>
+                <li><a href="/about">关于</a></li>
+
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9 blog-main">
+
+
+
+
+
+    <div class="post-summary">
+        <div class="post-head">
+    <h1><a href="/post/4">Python中一次读取多个值</a></h1>
+    <p>
+    <!--文章创建时间-->
+    <span class="glyphicon glyphicon-calendar"></span>
+    <span><span class="flask-moment" data-timestamp="2017-02-12T02:52:39Z" data-format="format('YYYY/MM/DD')" data-refresh="0" style="display: none">2017-02-12T02:52:39Z</span>&nbsp;&nbsp;</span>
+
+    <!--文章分类-->
+
+        <span class="glyphicon glyphicon-tag"></span>
+        <span><a href="/tag/Python">Python&nbsp;&nbsp;</a></span>
+
+
+    <!--获取多说评论数-->
+    <span class="glyphicon glyphicon-comment"></span>
+    <a href="/post/4#comments">
+        0 评论&nbsp;&nbsp;
+    </a>
+
+    <!--如果是管理员则显示删除和编辑链接-->
+
+</p>
+</div>
+
+<!--文章摘要主体部分-->
+<div class="post-body">
+
+    <p>Python 2里面读取输入的函数是<code>raw_input()</code>， Python 3的是<code>input()</code>，读入一个值后回车读取输入就退出了，想要读取一次读取多个输入，可以像下面这样：</p>
+
+<p><code>a, b = raw_input().split()</code></p>
+
+<p><img src="http://ok9zhewpu.bkt.clouddn.com/py2_input.png" alt=""></p>
+
+<p>输出的是字符串，要想读取的是数值，可以稍微改一下，像这样：</p>
+
+<p><code>a, b = map(int, raw_input().split())</code></p>
+
+
+</div>
+<br>
+<div class="post-footer">
+    <a href="/post/4">
+        <button type="button" class="btn btn-default">阅读全文</button>
+    </a>
+</div>
+    </div>
+
+
+
+    <div class="post-summary">
+        <div class="post-head">
+    <h1><a href="/post/3">网站更新</a></h1>
+    <p>
+    <!--文章创建时间-->
+    <span class="glyphicon glyphicon-calendar"></span>
+    <span><span class="flask-moment" data-timestamp="2017-01-28T11:39:12Z" data-format="format('YYYY/MM/DD')" data-refresh="0" style="display: none">2017-01-28T11:39:12Z</span>&nbsp;&nbsp;</span>
+
+    <!--文章分类-->
+
+        <span class="glyphicon glyphicon-tag"></span>
+        <span><a href="/tag/%E6%B5%8B%E8%AF%95">测试&nbsp;&nbsp;</a></span>
+
+        <span class="glyphicon glyphicon-tag"></span>
+        <span><a href="/tag/Test">Test&nbsp;&nbsp;</a></span>
+
+
+    <!--获取多说评论数-->
+    <span class="glyphicon glyphicon-comment"></span>
+    <a href="/post/3#comments">
+        7 评论&nbsp;&nbsp;
+    </a>
+
+    <!--如果是管理员则显示删除和编辑链接-->
+
+</p>
+</div>
+
+<!--文章摘要主体部分-->
+<div class="post-body">
+
+    <p>又改了代码，添加了不少代码，也删除了不少代码，主要改了下面这些地方：  </p>
+
+<p>删除掉不必要的页面，之前的有些地方显得很多余 </p>
+
+<p>登录注册功能也删掉了，之前管理员账号还需要注册验证，修改后不再需要，直接在命令行设置完环境变量，然后运行<code>User.insert_admin</code>来插入</p>
+
+<p>弃用多说，实现跟网站风格一致的评论系统， 多说实在太丑，改CSS的话几乎所有地方都要改了，干脆参考别人代码自己实现一个  </p>
+
+<p>编辑器弃用CKEditor，感觉CKEditor太“重”了， 为了安装一个Code Snippt扩展来插入代码，我还要事先安装了3、4个其它的扩展才能用，弃用CKEditor后改用了一个叫SimpleMDE的编辑器（项目主页<a href="https://github.com/NextStepWebs/simplemde-markdown-editor">https://github.com/NextStepWebs/simplemde-markdown-editor</a> ）， 不但漂亮还很“轻”，就是功能没有CKEditor丰富，就是个纯Markdown的编辑器，  唯一的缺点就是不能上传图片，虽然可以给它工具栏的Button添加自定义的JavaScript函数，但是无奈，自己又不懂js，只得作罢
+<img src="http://ok9zhewpu.bkt.clouddn.com/update-simplemde.png" alt="SimpleMDE"></p>
+
+
+</div>
+<br>
+<div class="post-footer">
+    <a href="/post/3">
+        <button type="button" class="btn btn-default">阅读全文</button>
+    </a>
+</div>
+    </div>
+
+
+
+
+
+<div class="pagination">
+
+<ul class="pagination">
+    <li class="disabled">
+        <a href="#">
+            &laquo;
+        </a>
+    </li>
+
+
+
+            <li class="active">
+                <a href="/?page=1">1</a>
+            </li>
+
+
+
+    <li class="disabled">
+        <a href="#">
+            &raquo;
+        </a>
+    </li>
+</ul>
+
+</div>
+
+
+        </div>
+        <div class="col-sm-3 blog-sidebar">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="glyphicon glyphicon-tags"></span>
+                    &nbsp;标签
+                </div>
+                <div class="panel-body">
+
+
+                    <p>
+                        <span class="glyphicon glyphicon-tag"></span>
+                        <a href="/tag/%E6%B5%8B%E8%AF%95">测试</a> <span class="badge">1</span>
+
+                    <p>
+                        <span class="glyphicon glyphicon-tag"></span>
+                        <a href="/tag/Test">Test</a> <span class="badge">1</span>
+
+                    <p>
+                        <span class="glyphicon glyphicon-tag"></span>
+                        <a href="/tag/Python">Python</a> <span class="badge">1</span>
+
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page-footer">
+    <div class="container">
+        <p class="text-muted">Powered by <a href="http://flask.pocoo.org/" target="_blank">Flask</a>, <a href="http://getbootstrap.com" target="_blank">Bootstrap</a> and <a href="https://www.python.org/" target="_blank">Python</a>, icon from <a href="http://glyphicons.com/" target="_blank">Glyphicons</a>.</p>
+        <p><a href="#">Back to top</a></p>
+    </div>
+</div>
+
+
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment-with-locales.min.js"></script>
+<script>
+moment.locale("en");
+function flask_moment_render(elem) {
+    $(elem).text(eval('moment("' + $(elem).data('timestamp') + '").' + $(elem).data('format') + ';'));
+    $(elem).removeClass('flask-moment').show();
+}
+function flask_moment_render_all() {
+    $('.flask-moment').each(function() {
+        flask_moment_render(this);
+        if ($(this).data('refresh')) {
+            (function(elem, interval) { setInterval(function() { flask_moment_render(elem) }, interval); })(this, $(this).data('refresh'));
+        }
+    })
+}
+$(document).ready(function() {
+    flask_moment_render_all();
+});
+</script>
+<script>
+moment.locale("zh-CN");
+</script>
+
+  </body>
+</html>

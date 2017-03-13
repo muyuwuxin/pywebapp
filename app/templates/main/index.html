@@ -14,7 +14,8 @@
             <div class="post-head">
               <h3><a href="{{ url_for('main.read' , id=foo.id) }}">{{foo.title}}</a></h3>
             </div>
-            <h6><a href="{{url_for('main.user',username=foo.user.username)}}"><span class="label label-info">{{foo.user.username}}</span></a>&nbsp;&nbsp;{{foo.comments.count()}} Comments</h6>
+            <h6><a href="{{url_for('main.user',username=foo.user.username)}}"><span class="label label-info">{{foo.user.username}}</span></a>&nbsp;<span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;{{foo.comments.count()}} Comments
+            &nbsp;<span class="glyphicon glyphicon-tag"></span><a href="{{url_for('main.category',id=foo.category.id)}}">{{foo.category.name}}</a></h6>
             <div class="post-body">
                 <p>{{foo.body|safe|truncate(305,True)}}</p>
             </div>
@@ -24,7 +25,25 @@
               </a>
               </div>
         </div>
+      </div>
         {% endfor %}
+    </div>
+    <div class="col-sm-3 blog-sidebar">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="glyphicon glyphicon-tags"></span>
+                &nbsp;分类
+            </div>
+            <div class="panel-body">
+                {% for category in categorys%}
+                <p>
+                    <span class="glyphicon glyphicon-tag"></span>
+                    <a href="{{ url_for('main.category' , id=category.id) }}">{{category.name}}</a> <span class="badge">{{category.articles.count()}}</span>
+                    <!-- 一开始在这里忘记两个大括号，一直没能把变量体现出来 -->
+                <p>
+                {%endfor%}
+            </div>
+        </div>
     </div>
     {% if pagination %}
 <div class="pagination">
