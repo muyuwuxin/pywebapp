@@ -6,7 +6,7 @@ from flask_wtf import FlaskForm
 from ..models import Category, User, Article, Role  # 解决重复的用户名,分类名和标题名而加上
 # 解决重复注册用户名加上的错误类型
 from wtforms import StringField, SubmitField, PasswordField, TextAreaField,\
-    ValidationError, BooleanField, SelectField
+    ValidationError, SelectField
 from wtforms.validators import DataRequired, length, Regexp, EqualTo
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 
@@ -22,8 +22,8 @@ class RegistrationForm(FlaskForm):
         6, 18), Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0,
                        u'用户名只允许字母数字以及下划线,用户名不允许特殊符号')])  # 这里本来有问题，说是多了参数,我把最后两个合在了一起
     password = PasswordField(
-        u'密码', validators=[DataRequired(), EqualTo('password2',
-                                                   message=u'密码错误提示1')])
+        u'密码', validators=[DataRequired(),
+                           EqualTo('password2', message=u'密码错误提示1')])
     password2 = PasswordField(u'重复密码', validators=[DataRequired()])
     registerkey = StringField(u'注册码', validators=[DataRequired()])
     submit = SubmitField(u'注册')
@@ -37,7 +37,8 @@ class RegistrationForm(FlaskForm):
 class PostArticleForm(FlaskForm):
     title = StringField(u'标题', validators=[DataRequired(), length(6, 64)])
     body = TextAreaField(u'内容')
-    category_id = QuerySelectField(u'分类', query_factory=lambda:
+    category_id = QuerySelectField(u'分类',
+                                   query_factory=lambda:
                                    Category.query.all(),
                                    get_pk=lambda a: str(a.id),
                                    get_label=lambda a: a.name)
@@ -60,10 +61,7 @@ class PostCategoryForm(FlaskForm):
 
 
 class EditArticleForm(FlaskForm):
-    # title = StringField(u'标题', validators=[length(0, 64)])
     body = TextAreaField(u'内容')
-    # category_id = QuerySelectField(u'分类', query_factory=lambda: Category.query.all(
-    # ), get_pk=lambda a: str(a.id), get_label=lambda a: a.name)
     submit = SubmitField(u'保存')
 
     def validate_title(self, field):  # 解决重复的文章标题名而加上
@@ -79,16 +77,7 @@ class EditProfileForm(FlaskForm):
 
 
 class EditProfileAdminForm(FlaskForm):
-    # email = StringField('Email', validators=[DataRequired(), length(1, 64),
-    #                                          Email()])
-    # username = StringField('Username', validators=[
-    #     DataRequired(), length(1, 64), Regexp('^[A-Za-z][A-Za-z0-9_.]*$',
-    #                                           0, 'Usernames must have only \
-    #                                           letters, '
-    #                                           'numbers, dots or underscores')])
-    # confirmed = BooleanField('Confirmed')
     role = SelectField('Role', coerce=int)
-    # name = StringField('Real name', validators=[Length(0, 64)])
     location = StringField('Location', validators=[length(0, 64)])
     about_me = TextAreaField('About me')
     submit = SubmitField('Submit')
@@ -98,13 +87,3 @@ class EditProfileAdminForm(FlaskForm):
         self.role.choices = [(role.id, role.name)
                              for role in Role.query.order_by(Role.name).all()]
         self.user = user
-
-    # def validate_email(self, field):
-    #     if field.data != self.user.email and \
-    #             User.query.filter_by(email=field.data).first():
-    #         raise ValidationError('Email already registered.')
-
-    # def validate_username(self, field):
-    #     if field.data != self.user.username and \
-    #             User.query.filter_by(username=field.data).first():
-    #         raise ValidationError('Username already in use.')

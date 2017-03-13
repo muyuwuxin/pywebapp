@@ -23,14 +23,14 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url_for('main.index') }}">首页</a></li>
+                    <li><a href="{{ url_for('main.index') }}"><span class="glyphicon glyphicon-home"></span>&nbsp;首页</a></li>
                     {% if current_user.is_authenticated %}
                         <!-- <li><a href="{{ url_for('admin.index') }}">后台首页</a></li> -->
-                        <li><a href="{{ url_for('admin.article') }}">文章</a></li>
-                        <li><a href="{{ url_for('admin.category') }}">分类</a></li>
-                        <li><a href="{{ url_for('todo.show_todo_list') }}">待办</a></li>
-                        <li><a href="{{ url_for('main.user',username=current_user.username) }}">个人资料</a></li>
-                        <li><a href="{{ url_for('main.albums', username=current_user.username) }}">我的相册</a></li>
+                        <li><a href="{{ url_for('admin.article') }}"><span class="glyphicon glyphicon-th-list"></span>&nbsp;文章</a></li>
+                        <li><a href="{{ url_for('admin.category') }}"><span class="glyphicon glyphicon-tags"></span>&nbsp;分类</a></li>
+                        <li><a href="{{ url_for('todo.show_todo_list') }}"><span class="glyphicon glyphicon-pushpin"></span>&nbsp;待办</a></li>
+                        <li><a href="{{ url_for('main.user',username=current_user.username) }}"><span class="glyphicon glyphicon-user"></span>&nbsp;个人资料</a></li>
+                        <li><a href="{{ url_for('main.albums', username=current_user.username) }}"><span class="glyphicon glyphicon-camera"></span>&nbsp;我的相册</a></li>
                     {% endif %}
                 </ul>
                 <ul class="nav navbar-nav navbar-right">

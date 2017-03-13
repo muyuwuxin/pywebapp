@@ -3,9 +3,9 @@
 
 
 from . import todo
-from .. import db, login_manager
-from ..models import TodoList, User
-from flask_login import login_required, login_user, logout_user, current_user
+from .. import db
+from ..models import TodoList
+from flask_login import login_required, current_user
 # from .forms import TodoListForm, LoginForm, RegisterForm
 from .forms import TodoListForm
 from flask import render_template, redirect, request, url_for, flash

@@ -6,10 +6,9 @@ from . import admin
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import login_required, current_user, login_user, logout_user
 from forms import LoginForm, RegistrationForm, PostArticleForm, \
-    PostCategoryForm, EditArticleForm, EditProfileForm, EditProfileAdminForm
+    PostCategoryForm, EditProfileForm, EditProfileAdminForm
 from ..models import User, Article, Category, Role
 from .. import db
-from sqlalchemy.exc import IntegrityError
 
 
 @admin.route('/')
@@ -64,19 +63,14 @@ def article():
     form = PostArticleForm()
     alist = Article.query.filter_by(user_id=current_user.id).all()
     if form.validate_on_submit():
-        article = Article(title=form.title.data, body=form.body.data,
+        article = Article(title=form.title.data,
+                          body=form.body.data,
                           category_id=str(form.category_id.data.id),
                           user_id=current_user.id)
-        # try:
-        #     db.session.add(acticle)
-        #     flash(u'文章添加成功')
-        #     redirect(url_for('admin.index'))
-        # except IntegrityError as e:
-        #     db.session.rollback()
+
         db.session.add(article)
         flash(u'文章添加成功')
-        # db.session.commit()
-        # db.session.rollback()
+
         return redirect(url_for('admin.article'))
     return render_template('admin/article.html', form=form, list=alist,
                            username=current_user.username)
@@ -87,7 +81,8 @@ def article():
 def article_write():
     form = PostArticleForm()
     if form.validate_on_submit():
-        article = Article(title=form.title.data, body=form.body.data,
+        article = Article(title=form.title.data,
+                          body=form.body.data,
                           category_id=str(form.category_id.data.id),
                           user_id=current_user.id)
         db.session.add(article)
@@ -115,7 +110,6 @@ def article_del():
 def article_edit(id):
     article = Article.query.get_or_404(id)
     form = PostArticleForm()
-    # if form.validate_on_submit():
     if request.method == 'POST':
         article.body = form.body.data
         db.session.add(article)
@@ -133,17 +127,8 @@ def category():
     form = PostCategoryForm()
     if form.validate_on_submit():
         category = Category(name=form.name.data)
-        # try:
-        #     db.session.add(category)
-        #     flash(u'分类添加成功')
-        #     return redirect(url_for('admin.category'))
-        # except IntegrityError as e:
-        #     db.session.rollback()
-        # db.session.add(category)
         db.session.merge(category)
         flash(u'分类添加成功')
-        # db.session.commit()
-        # db.session.rollback()
         return redirect(url_for('admin.category'))
     return render_template('admin/category.html', form=form, list=clist)
 
@@ -162,28 +147,10 @@ def category_del():
         return redirect(url_for('admin.category'))
 
 
-# @admin.route('/user/<username>')
-# @login_required
-# def user(username):
-#     user = User.query.filter_by(username=username).first_or_404()
-#     return render_template('admin/user.html', user=user)
-
-
 @admin.route('/edit-profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
     form = EditProfileForm()
-    # if form.validate_on_submit():
-    #     # current_user.name = form.name.data
-    #     current_user.location = form.location.data
-    #     current_user.about_me = form.about_me.data
-    #     db.session.add(current_user)
-    #     flash('update')
-    #     return redirect(url_for('admin.user', username=current_user.username))
-    # # form.name.data = current_user.name
-    # form.location.data = current_user.location
-    # form.about_me.data = current_user.about_me
-    # return render_template('admin/edit_profile.html', form=form)
     if request.method == 'POST':
         current_user.location = form.location.data
         current_user.about_me = form.about_me.data
@@ -198,7 +165,6 @@ def edit_profile():
 
 @admin.route('/edit-profile/<int:id>', methods=['GET', 'POST'])
 @login_required
-# @admin_required
 def edit_profile_admin(id):
     user = User.query.get_or_404(id)
     form = EditProfileAdminForm(user=user)

@@ -43,20 +43,10 @@ def read(id):
 
 @main.route('/listarticle/<int:id>')
 def listarticle(id):
-    # the_article = Article.query.filter_by(user_id=request.args.get('id')).all()
-    # user = User.query.get(request.args.get('id'))
-    # if the_article is not None:
-    #     # return render_template('main/article.html', list=the_article)
-    #     return render_template('main/article.html', username=user.username, list=the_article)
-    # flash(u'未找到该作者相关文章')
-    # return redirect(url_for('main.index'))
     page = request.args.get('page', 1, type=int)
     pagination = Article.query.filter_by(user_id=id).paginate(
         page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
         error_out=False)
-    # pagination = Article.query.filter_by(user_id=request.args.get('id')).paginate(
-    #     page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
-    #     error_out=False)
     articles = pagination.items
     return render_template('main/article.html', list=articles, id=id,
                            pagination=pagination) \
@@ -122,7 +112,7 @@ def unfollow(username):
         flash(u'你没有关注此用户')
         return redirect(url_for('main.user', username=username))
     current_user.unfollow(user)
-    flash(u'你没有关注 %s anymore.' % username)
+    flash(u'你取消关注 %s' % username)
     return redirect(url_for('main.user', username=username))
 
 
@@ -130,7 +120,7 @@ def unfollow(username):
 def followers(username):
     user = User.query.filter_by(username=username).first()
     if user is None:
-        flash('Invalid user.')
+        flash(u'无效用户')
         return redirect(url_for('main.index'))
     page = request.args.get('page', 1, type=int)
     pagination = user.followers.paginate(
@@ -138,8 +128,10 @@ def followers(username):
         error_out=False)
     follows = [{'user': item.follower}
                for item in pagination.items]
-    return render_template('followers.html', user=user, title="Followers of",
-                           endpoint='.followers', pagination=pagination,
+    return render_template('following.html',
+                           user=user,
+                           endpoint='.followers',
+                           pagination=pagination,
                            follows=follows)
 
 
@@ -155,8 +147,10 @@ def followed_by(username):
         error_out=False)
     follows = [{'user': item.followed}
                for item in pagination.items]
-    return render_template('followers.html', user=user, title="Followed by",
-                           endpoint='.followed_by', pagination=pagination,
+    return render_template('followed.html',
+                           user=user,
+                           endpoint='.followed_by',
+                           pagination=pagination,
                            follows=follows)
 
 
@@ -212,25 +206,12 @@ def albums(username):
     photo_count = sum([len(album.photos.all()) for album in albums])
     album_count = len(albums)
 
-    # allowed_tags = ['br']
-    # if user.about_me:
-    #     about_me = bleach.linkify(bleach.clean(
-    #         user.about_me.replace('\r', '<br>'), tags=allowed_tags, strip=True))
-    # else:
-    #     about_me = None
-    # form = CommentForm()
-    # if form.validate_on_submit() and current_user.is_authenticated:
-    #     comment = Message(body=form.body.data,
-    #                       user=user,
-    #                       author=current_user._get_current_object())
-    #     db.session.add(comment)
-    #     flash(u'你的评论已经发表。', 'success')
-    #     return redirect(url_for('.albums', username=username))
-
-    # comments = user.messages.order_by(Message.timestamp.asc()).all()
     return render_template('main/albums.html',
-                           user=user, albums=albums, album_count=album_count,
-                           photo_count=photo_count, pagination=pagination)
+                           user=user,
+                           albums=albums,
+                           album_count=album_count,
+                           photo_count=photo_count,
+                           pagination=pagination)
 
 
 @main.route('/new-album', methods=['GET', 'POST'])
@@ -252,8 +233,11 @@ def new_album():
         db.session.add(album)
 
         for url in images:
-            photo = Photo(url=url[0], url_s=url[1], url_t=url[2],
-                          album=album, author=current_user._get_current_object())
+            photo = Photo(url=url[0],
+                          url_s=url[1],
+                          url_t=url[2],
+                          album=album,
+                          author=current_user._get_current_object())
             db.session.add(photo)
         db.session.commit()
         flash(u'相册创建成功！', 'success')
@@ -286,7 +270,10 @@ def edit_photo(id):
     for index, photo in enumerate(photos):
         enu_photos.append((index, photo))
 
-    return render_template('main/edit_photo.html', album=album, photos=photos, enu_photos=enu_photos)
+    return render_template('main/edit_photo.html',
+                           album=album,
+                           photos=photos,
+                           enu_photos=enu_photos)
 
 
 @main.route('/album/<int:id>')
@@ -300,7 +287,7 @@ def album(id):
     elif photo_amount != 0 and album.cover == placeholder:
         album.cover = album.photos[0].path
 
-    if current_user != album.author and album.no_public == True:
+    if current_user != album.author and album.no_public is True:
         abort(404)
     page = request.args.get('page', 1, type=int)
     if album.asc_order:
@@ -317,7 +304,10 @@ def album(id):
     else:
         no_pic = False
 
-    return render_template('main/album.html', album=album, photos=photos, pagination=pagination,
+    return render_template('main/album.html',
+                           album=album,
+                           photos=photos,
+                           pagination=pagination,
                            no_pic=no_pic)
 
 
@@ -325,7 +315,7 @@ def album(id):
 def photo(id):
     photo = Photo.query.get_or_404(id)
     album = photo.album
-    if current_user != album.author and album.no_public == True:
+    if current_user != album.author and album.no_public is True:
         abort(404)
 
     photo_sum = len(list(album.photos))
@@ -349,9 +339,14 @@ def photo(id):
         error_out=False)
     comments = pagination.items
     amount = len(comments)
-    return render_template('main/photo.html', form=form, album=album, amount=amount,
-                           photo=photo, pagination=pagination,
-                           photo_index=photo_index, photo_sum=photo_sum)
+    return render_template('main/photo.html',
+                           form=form,
+                           album=album,
+                           amount=amount,
+                           photo=photo,
+                           pagination=pagination,
+                           photo_index=photo_index,
+                           photo_sum=photo_sum)
 
 
 @main.route('/edit-album/<int:id>', methods=['GET', 'POST'])
@@ -386,8 +381,11 @@ def add_photo(id):
             images = save_image(request.files.getlist('photo'))
 
             for url in images:
-                photo = Photo(url=url[0], url_s=url[1], url_t=url[2],
-                              album=album, author=current_user._get_current_object())
+                photo = Photo(url=url[0],
+                              url_s=url[1],
+                              url_t=url[2],
+                              album=album,
+                              author=current_user._get_current_object())
                 db.session.add(photo)
             db.session.commit()
         flash(u'图片添加成功！', 'success')

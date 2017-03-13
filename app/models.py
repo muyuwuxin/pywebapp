@@ -14,7 +14,6 @@ class Article(db.Model):
     __tablename__ = 'articles'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(64), unique=True)
-    # title = db.Column(db.String(64))
     body = db.Column(db.Text)
     create_time = db.Column(db.String(50), default=time.strftime(
         "%Y-%m-%d %A %X %Z", time.localtime()))
@@ -27,8 +26,6 @@ class Article(db.Model):
 class Category(db.Model):
     __tablename__ = 'categorys'
     id = db.Column(db.Integer, primary_key=True)
-    # id = db.Column(db.Integer)
-    # name = db.Column(db.String(64), unique=True)
     name = db.Column(db.String(64))
     articles = db.relationship('Article', backref='category', lazy='dynamic')
 
